@@ -74,7 +74,6 @@ def __thread_records_handler(f, event, context):
     return True
 
 def __records_handler(f, event, context):
-    import multiprocessing
     try:
         for record in event['Records']:
             f(record, context)
