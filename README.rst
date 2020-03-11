@@ -2,7 +2,12 @@ Python Handler Helper for Lambda
 =========================
 
 .. image:: https://readthedocs.org/projects/phhelper/badge/?version=latest
+   :target: https://phhelper.readthedocs.io/?badge=latest
+   :alt: Documentation Status
 
+.. image:: https://travis-ci.com/lhgomes/phhelper.svg?branch=master
+    :target: https://travis-ci.com/lhgomes/phhelper
+    
 Overview
 --------
 Simplify best practice for Lambda in Python, handling Lambda events and errors with detailed and standarized logs.
