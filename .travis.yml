@@ -1,0 +1,13 @@
+language: python
+python:
+- '3.7'
+- '3.8'
+install: pip install -r requirements.txt
+deploy:
+  provider: pypi
+  user: lhgomes
+  password:
+    secure: iI/BhDeCYC0BnsvSCQFJ6AnP2iEPcHlWDDr7a8D1ZJqEng09xR8fNV+RQ2hnBx6bWqonvXzQWqxPKitrtrEKcoWa7azErnNXWOn8Rh76zvOLvq/pdTOcAioILyGfQyYt2Pds18gU/v3IGlFbeHIw6pzvsFnpI/hKbsdkSIFMFwUmGqiHEAzG3Kcoe2qHqVTDLFjfChDy+9Fetwl4S9aVjW2ghsL+3iCuljDEmx24qXT4xyTlmDQsabZO5YnfeRTY8082bVJfg3FzeHzfnYey7xD9jzh2nyI8l/BM3J03XAuIDBZZFC2eW2b8W1bGmZ4OVJ7kUTyk0JAf2uOaO8e1Yo2m0iZk0X/XLrMrBs4lF928BafXiKso3a/IikBZOsGYGeAnsXNSDZ2Vf4H27N20iG4Hyw28qLC/PA6hwqYyjFN3WFb2LMO0BVKjLBKeKJrXYAq5P1COT3jVUCwrMp28ODk+Kqc3HzvBRGKJ28dB/uVlUj+QT13XShiYbSEezEDoo1I1xNx+WdFLlv84PfohhtDd3939udBte+PJclw6YdtEClsWpkTqqVmTFdQctoEwyg7rek/A7mbcAsP/DgWhf0hdr7vh10X9aiWtR8sPpmYo0I8dr7lPH9ch7FrPrXXBaPPKACSg5JjRAImHvNchMVaLRHSI56sBhVAMEIwW7tw=
+  on:
+    tags: true
+    branch: master
