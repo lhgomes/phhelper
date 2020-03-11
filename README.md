@@ -17,7 +17,7 @@ Install into the root folder of your lambda function
 
 ```json
 cd my-lambda-function/
-pip install phhelper-lhgomes -t .
+pip install phhelper -t .
 ```
 
 ## Example Usage
