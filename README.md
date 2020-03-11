@@ -69,6 +69,8 @@ Decorator implementation inspired by https://github.com/aws-cloudformation/custo
 
 Log implementation inspired by https://gitlab.com/hadrien/aws_lambda_logging
 
+Multiprocessing implementation inspired by https://medium.com/@urban_institute/using-multiprocessing-to-make-python-code-faster-23ea5ef996ba
+
 ## License
 
 This library is licensed under the MIT License.
