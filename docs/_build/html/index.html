@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Python Handler Helper for Lambda &#8212; phhelper  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="python-handler-helper-for-lambda">
+<h1>Python Handler Helper for Lambda<a class="headerlink" href="#python-handler-helper-for-lambda" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Simplify best practice for Lambda in Python, handling Lambda events and errors with detailed and standarized logs.</p>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Dead simple to use, reduces the complexity of writing a Lambda with Python runtime</p></li>
+<li><p>Guarantees that Source will get a response even if an exception is raised</p></li>
+<li><p>Sends meaningful errors to Cloudwatch in the case of a failure</p></li>
+<li><p>Threading enables best runtime performance for events with multiple records</p></li>
+<li><p>JSON logging that includes request id’s, event id’s and source to assist in tracing logs relevant to a particular event</p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Install into the root folder of your lambda function</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">cd my-lambda-function/</span>
+<span class="go">pip install phhelper -t .</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">phhelper</span> <span class="kn">import</span> <span class="n">aws_lambda_helper</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="nd">@aws_lambda_helper</span><span class="o">.</span><span class="n">handler</span>
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;info_test&#39;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;error_test&#39;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;debug_test&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;statusCode&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="s1">&#39;body&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="s1">&#39;Hello from Lambda!&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="threading">
+<h2>Threading<a class="headerlink" href="#threading" title="Permalink to this headline">¶</a></h2>
+<p>If the event source send multiple records to be processed, you can enable Multithreading processing, by creating a
+Environment variable called <code class="docutils literal notranslate"><span class="pre">THREADING_ENABLED</span></code> with value <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>. This will make a loop into event records, starting a
+thread for each record. Your handler will receive each record in a separeted call, inside a thread model.</p>
+</div>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>You can define the general log verbosity level using a Environment variable called <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> and the boto3 log level
+using a Environment variable called <code class="docutils literal notranslate"><span class="pre">BOTO_LOG_LEVEL</span></code>.</p>
+<p>The valid values for both Environment variables are:
+* DEBUG
+* INFO
+* WARNING
+* ERROR
+* CRITICAL</p>
+<p>The default values are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>LOG_LEVEL = &#39;ERROR&#39;
+BOTO_LOG_LEVEL` = &#39;CRITICAL&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<p>Decorator implementation inspired by <a class="reference external" href="https://github.com/aws-cloudformation/custom-resource-helper">https://github.com/aws-cloudformation/custom-resource-helper</a></p>
+<p>Log implementation inspired by <a class="reference external" href="https://gitlab.com/hadrien/aws_lambda_logging">https://gitlab.com/hadrien/aws_lambda_logging</a></p>
+<p>Multiprocessing implementation inspired by <a class="reference external" href="https://medium.com/&#64;urban_institute/using-multiprocessing-to-make-python-code-faster-23ea5ef996ba">https://medium.com/&#64;urban_institute/using-multiprocessing-to-make-python-code-faster-23ea5ef996ba</a></p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This library is licensed under the MIT License.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">phhelper</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Luiz Henrique Gomes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
