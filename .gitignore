@@ -2,3 +2,4 @@ build
 dist
 pack.sh
 *.egg-info
+*.zip
