@@ -7,6 +7,10 @@ Python Handler Helper for Lambda
 
 .. image:: https://travis-ci.com/lhgomes/phhelper.svg?branch=master
     :target: https://travis-ci.com/lhgomes/phhelper
+
+.. image:: https://badge.fury.io/py/phhelper.svg
+    :target: https://badge.fury.io/py/phhelper
+    
     
 Overview
 --------
