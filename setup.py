@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='phhelper',
-    version='0.8',
+    version='0.8.1',
     author='Luiz Henrique Gomes',
     author_email="lhgnet@gmail.com",
     description='Python Handler Helper for Lambda',
