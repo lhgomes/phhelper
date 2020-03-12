@@ -4,27 +4,28 @@ python:
   - '3.8'
 install: pip install -r requirements.txt
 script:
-  - mkdir build
-  - mkdir build/python
-  - mkdir build/python/lib
-  - mkdir build/python/lib/python3.7
-  - mkdir build/python/lib/python3.7/site-packages
-  - mkdir build/python/lib/python3.8
-  - mkdir build/python/lib/python3.8/site-packages
-  - cp -R phhelper build/python/lib/python3.7/site-packages
-  - cp -R phhelper build/python/lib/python3.8/site-packages
-  - cd build
-  - zip -q -r ../../phhelper.zip python
-  - cd ..
+  - echo "Skip build script"
+  #- mkdir build
+  #- mkdir build/python
+  #- mkdir build/python/lib
+  #- mkdir build/python/lib/python3.7
+  #- mkdir build/python/lib/python3.7/site-packages
+  #- mkdir build/python/lib/python3.8
+  #- mkdir build/python/lib/python3.8/site-packages
+  #- cp -R phhelper build/python/lib/python3.7/site-packages
+  #- cp -R phhelper build/python/lib/python3.8/site-packages
+  #- cd build
+  #- zip -q -r ../../phhelper.zip python
+  #- cd ..
 deploy:
-  - provider: releases
-    api_key:
-      secure: dbSNP9ULB3VehlS43obhSqoXVWxyvOU9D2onmW1zeFncYd/AMaaE7u7myLGVW8h3nYjt6mi0dzR28KebcYaog1cD2PKGtm9hSzjRkz2n+e5lYpxSdkLXurKwdO6V/ZCLTarydvv6Gr1xBLWFSWIzWpzX2InUv4nSXaeeU/WVsgqbtPgH4CpGvH5mjxXtrlDiSK4ke0YmgRQWt6yfVBH0mII/vH2ssrKr8Ihkwiwcef7jC6dgHLAFB6iB6Qt4YXvGPCYgzUtf5NqJMECmqURm3Gi5zuBHtRwFzRpjkPcvRWFBCZA3lAgjJ0LD2ReigpMhZ+s56JjeHvQxHeRssEoVR/ak1Hc9ObK8agj4NS7FTexY0ThB6c86HfR2YYVjV3AfsXx7b0KOa0ycwupNtxxIcLhA6qURN4yhfXghscz50fCg0Hk34HCscAGPu9xhhUQqgsZ++lHEfQBJQZG+yxNGSrbY/OsHoUMMnFJxIKX0V/8Wb0j+19ySB/kUENK0/isS6xEi5A2AFe8R2lI1kq/eZeQ/JHpufAOuSJYPWEeJM/wumhA9MD6iqK2ar2Ll4eGYdPOurM9B70atTysyRNokVKWCA6JlGrfde1ZnFcnhx+iFcbltINtFFXnxNLa9Z99/OJdSn2TTl7DXGr2b2ehqenBdEaAA0aJbaFziCtBuc18=
-    file: phhelper.zip
-    skip_cleanup: true
-    on:
-      tags: true
-      branch: master
+  #- provider: releases
+  #  api_key:
+  #    secure: dbSNP9ULB3VehlS43obhSqoXVWxyvOU9D2onmW1zeFncYd/AMaaE7u7myLGVW8h3nYjt6mi0dzR28KebcYaog1cD2PKGtm9hSzjRkz2n+e5lYpxSdkLXurKwdO6V/ZCLTarydvv6Gr1xBLWFSWIzWpzX2InUv4nSXaeeU/WVsgqbtPgH4CpGvH5mjxXtrlDiSK4ke0YmgRQWt6yfVBH0mII/vH2ssrKr8Ihkwiwcef7jC6dgHLAFB6iB6Qt4YXvGPCYgzUtf5NqJMECmqURm3Gi5zuBHtRwFzRpjkPcvRWFBCZA3lAgjJ0LD2ReigpMhZ+s56JjeHvQxHeRssEoVR/ak1Hc9ObK8agj4NS7FTexY0ThB6c86HfR2YYVjV3AfsXx7b0KOa0ycwupNtxxIcLhA6qURN4yhfXghscz50fCg0Hk34HCscAGPu9xhhUQqgsZ++lHEfQBJQZG+yxNGSrbY/OsHoUMMnFJxIKX0V/8Wb0j+19ySB/kUENK0/isS6xEi5A2AFe8R2lI1kq/eZeQ/JHpufAOuSJYPWEeJM/wumhA9MD6iqK2ar2Ll4eGYdPOurM9B70atTysyRNokVKWCA6JlGrfde1ZnFcnhx+iFcbltINtFFXnxNLa9Z99/OJdSn2TTl7DXGr2b2ehqenBdEaAA0aJbaFziCtBuc18=
+  #  file: phhelper.zip
+  #  skip_cleanup: true
+  #  on:
+  #    tags: true
+  #    branch: master
   - provider: pypi
     user: __token__
     password:
