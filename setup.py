@@ -1,17 +1,17 @@
 # coding: utf-8
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name='phhelper',
-    version='0.8.1',
+    version='0.9',
     author='Luiz Henrique Gomes',
     author_email="lhgnet@gmail.com",
     description='Python Handler Helper for Lambda',
     long_description=long_description,
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     url="https://github.com/lhgomes/phhelper",
     packages=setuptools.find_packages(),
     classifiers=[

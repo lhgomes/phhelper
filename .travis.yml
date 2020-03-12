@@ -1,15 +1,34 @@
 language: python
 python:
-- '3.7'
-- '3.8'
+  - '3.7'
+  - '3.8'
 install: pip install -r requirements.txt
 script:
-- echo "skipping tests"
+  - mkdir build
+  - mkdir build/python
+  - mkdir build/python/lib
+  - mkdir build/python/lib/python3.7
+  - mkdir build/python/lib/python3.7/site-packages
+  - mkdir build/python/lib/python3.8
+  - mkdir build/python/lib/python3.8/site-packages
+  - cp -R phhelper build/python/lib/python3.7/site-packages
+  - cp -R phhelper build/python/lib/python3.8/site-packages
+  - cd build
+  - zip -q -r ../../phhelper.zip python
+  - cd ..
 deploy:
-  provider: pypi
-  user: lhgomes
-  password:
-    secure: TALzvOZkk6NYuo/0dIwdEEaS2SX50KABAjHKCsV6kpqPW3pclDH0/9GzVbikSNCkx0VhIY0HgzUWR4BnN98haiMETi3p/ve+s2BFeyRgtxAdheFQPSsI+FGJB6TNU/xU1vgyhUU2L3fC0WPDoFa19jqE1j7NyUYpXnZHEb6ggZGk+7zuW2ZxV+alAZAm1vtnuh+bJaoM5ieCxHW2e8Wz0EjHMKosQ89xMHpfybx1qq3GyXbNS7TnszJepJCVJqMEVdSiZEKNYRR9axh1FGn1IzCDmvHEGxqVnQ30SJ0HlFjD4QN/ox7A0qAdGE0ZBLHggK/jcU52a77NZY4shc+xIureWX8iWs8oGyFI/tM8FfWiQMR2rv10TXCISXEGPQ7pnvhogBnKyq6nTzr4ZxH5KjBsL7Kru8ldDxwQkdl8b5RmwVJaI2luI09GAb79N7nk8t/IYAZgBKK2rfefnwuzVQXv0KKeZQgMxPZZDWlrF0QNjtzXU/mfuqU9DGCFP8C+tQzth5YdqFPuAjWIgKRBWeMyywpnCtoVgO7avA11965b4AmjZ5oQKn5RLG+tVZoo/Lw6lSGHBjv2r4EEphG+3/cIsj74a0BPAlv4GFQd0HmGKWtTY/4hTE5Fkd6J/bEeuxRB0g4rWsvYMDkoX/5PzY38Pli1YSPsTu/nDdDvrg0=
-  on:
-    tags: true
-    branch: master
+  - provider: releases
+    api_key:
+      secure: dbSNP9ULB3VehlS43obhSqoXVWxyvOU9D2onmW1zeFncYd/AMaaE7u7myLGVW8h3nYjt6mi0dzR28KebcYaog1cD2PKGtm9hSzjRkz2n+e5lYpxSdkLXurKwdO6V/ZCLTarydvv6Gr1xBLWFSWIzWpzX2InUv4nSXaeeU/WVsgqbtPgH4CpGvH5mjxXtrlDiSK4ke0YmgRQWt6yfVBH0mII/vH2ssrKr8Ihkwiwcef7jC6dgHLAFB6iB6Qt4YXvGPCYgzUtf5NqJMECmqURm3Gi5zuBHtRwFzRpjkPcvRWFBCZA3lAgjJ0LD2ReigpMhZ+s56JjeHvQxHeRssEoVR/ak1Hc9ObK8agj4NS7FTexY0ThB6c86HfR2YYVjV3AfsXx7b0KOa0ycwupNtxxIcLhA6qURN4yhfXghscz50fCg0Hk34HCscAGPu9xhhUQqgsZ++lHEfQBJQZG+yxNGSrbY/OsHoUMMnFJxIKX0V/8Wb0j+19ySB/kUENK0/isS6xEi5A2AFe8R2lI1kq/eZeQ/JHpufAOuSJYPWEeJM/wumhA9MD6iqK2ar2Ll4eGYdPOurM9B70atTysyRNokVKWCA6JlGrfde1ZnFcnhx+iFcbltINtFFXnxNLa9Z99/OJdSn2TTl7DXGr2b2ehqenBdEaAA0aJbaFziCtBuc18=
+    file: phhelper.zip
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
+  - provider: pypi
+    user: __token__
+    password:
+      secure: Nb+v29Zod4NLD8EhLO043Og0GLJCo8+xHcLvIj/jcCuwNy4FxMGdazVqpv/ZDy6ndNPnzqwRYn28Of4ZJaCTHInAuAs80gYyotR7ijMh5Kv8s5HGA8ZztaXra97PRxmjg72/Skj3sYkLnJW/MfkTHB5RtxsepBu4nVpUdnpW7aIe+j9WbV74UL4L9yYmRsKSy2+v3bzemyVthv7lo7LZ/CosWT3KnaaVXbgHU/7uAwXTpxC57qwUo2KJHrE/p0ecztK9JspPE3x74Lezp3ER7vlp+iepU+I5z6dkY//OnPVqG78Aat9Nm+H/R9GYGbqmFLL+AtF3sXkSbISjFx7PMmq7KdrGQO+It0vOjHfQWaDzWSPNEItRXXGjI5KSx19M97DRn3Z00ManfjPsOIm7eqK4Ns6BosKeGFmY+IwyZ2K4m6/LkQWY5YqOj4ozgufvtLjL7k9hq7NqXnyM2Ygu/oYPlx3g7orVIVaOW1Y5FHtx9AfblsFdOVtJZnU2ELRsG/+hROmCR08+v0+wd7bFuhg/mgC6DBZUaImaGAgK4s7deGLGvIX6y49Q6setblxYUe/n4LDezW2ZyVc5ZYJmisJLdv1MKaR907WSFGMQ9G0yo2LAWkYYWZ+tVWjZsoW4qhgr3jH0ivKeyLt8wP8vjY3VVBX6lQjpYOFCZw/ncMc=
+    on:
+      tags: true
+      branch: master
