@@ -6,11 +6,12 @@ with open("README.rst", "r") as fh:
 
 setuptools.setup(
     name='phhelper',
-    version='0.9.6',
+    version='0.9.7',
     author='Luiz Henrique Gomes',
     author_email="lhgnet@gmail.com",
     description='Python Handler Helper for Lambda',
     long_description=long_description,
+    long_description_content_type='text/x-rst',
     url="https://github.com/lhgomes/phhelper",
     packages=setuptools.find_packages(),
     classifiers=[

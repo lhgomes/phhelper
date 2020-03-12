@@ -1,5 +1,5 @@
 Python Handler Helper for Lambda
-=========================
+=====================================
 
 .. image:: https://readthedocs.org/projects/phhelper/badge/?version=latest
    :target: https://phhelper.readthedocs.io/?badge=latest
@@ -21,7 +21,7 @@ Features
 * JSON logging that includes request id's, event id's and source to assist in tracing logs relevant to a particular event
 
 Installation
---------
+------------
 Install into the root folder of your lambda function
 
 .. code-block:: shell-session
@@ -31,7 +31,7 @@ Install into the root folder of your lambda function
 
 
 Example Usage
---------
+-------------
 
 .. code-block:: python
 
@@ -53,7 +53,7 @@ Example Usage
        }
 
 Threading
---------
+---------
 If the event source send multiple records to be processed, you can enable Multithreading processing, by creating a 
 Environment variable called ``THREADING_ENABLED`` with value ``TRUE``. This will make a loop into event records, starting a
 thread for each record. Your handler will receive each record in a separeted call, inside a thread model.
