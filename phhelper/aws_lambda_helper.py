@@ -16,7 +16,15 @@ def __setup_log(context):
     aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
                             function_arn=context.invoked_function_arn,
                             aws_request_id=context.aws_request_id)    
-                            
+
+def __setup_events_log(context):
+    aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
+                             function_arn=context.invoked_function_arn,
+                             aws_request_id=context.aws_request_id,
+                             event_source=event['source'],
+                             event_time=event['time'],
+                             event_detail_type=event['detail-type'])  
+    
 def __setup_api_log(event,context):
     aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
                             function_arn=context.invoked_function_arn,
@@ -87,7 +95,25 @@ def __records_handler(f, event, context):
         raise error
 
     return True
-    
+
+def __events_handler(f, event, context):
+    try:
+        __setup_events_log(event,context)
+
+        result = f(event, context)
+        
+    except AssertionError as error:
+        logging.info('lambda_handler assert: %s' % (error))
+        raise error
+    except Exception as error:
+        logging.error('lambda_handler error: %s' % (error))
+        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        raise error
+    finally:
+        logging.debug(result)
+        
+    return result
+
 def __apigateway_handler(f, event, context):
     result = None
     try:
@@ -138,6 +164,8 @@ def handler(f):
                 __records_handler(f, event, context)
         elif 'requestContext' in event:
             return __apigateway_handler(f, event, context)
+        elif 'source' in event and event['source'] == 'aws.events':
+            return __events_handler(f, event, context)        
         else:
             logging.error('Unmapped event source')
             raise Exception('Unmapped event source')
