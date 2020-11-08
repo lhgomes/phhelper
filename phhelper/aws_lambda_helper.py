@@ -17,7 +17,7 @@ def __setup_log(context):
                             function_arn=context.invoked_function_arn,
                             aws_request_id=context.aws_request_id)    
 
-def __setup_events_log(context):
+def __setup_events_log(event,context):
     aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
                              function_arn=context.invoked_function_arn,
                              aws_request_id=context.aws_request_id,
