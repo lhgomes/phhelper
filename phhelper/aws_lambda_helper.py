@@ -97,6 +97,7 @@ def __records_handler(f, event, context):
     return True
 
 def __events_handler(f, event, context):
+    result = None
     try:
         __setup_events_log(event,context)
 
