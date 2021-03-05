@@ -6,7 +6,7 @@ with open("README.rst", "r") as fh:
 
 setuptools.setup(
     name='phhelper',
-    version='0.9.11',
+    version='0.9.16',
     author='Luiz Henrique Gomes',
     author_email="lhgnet@gmail.com",
     description='Python Handler Helper for Lambda',
@@ -19,6 +19,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     license='MIT',
 )
