@@ -17,6 +17,14 @@ def __setup_log(context):
                             function_arn=context.invoked_function_arn,
                             aws_request_id=context.aws_request_id)    
 
+def __setup_cognito_log(event,context):
+    aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
+                             function_arn=context.invoked_function_arn,
+                             aws_request_id=context.aws_request_id,
+                             cognito_region=event['region'],
+                             cognito_userPoolId=event['userPoolId'],
+                             cognito_triggerSource=event['triggerSource'])  
+
 def __setup_events_log(event,context):
     aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
                              function_arn=context.invoked_function_arn,
@@ -96,6 +104,25 @@ def __records_handler(f, event, context):
 
     return True
 
+def __cognito_handler(f, event, context):
+    result = None
+    try:
+        __setup_cognito_log(event,context)
+
+        result = f(event, context)
+        
+    except AssertionError as error:
+        logging.info('lambda_handler assert: %s' % (error))
+        raise error
+    except Exception as error:
+        logging.error('lambda_handler error: %s' % (error))
+        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        raise error
+    finally:
+        logging.debug(result)
+        
+    return result
+
 def __events_handler(f, event, context):
     result = None
     try:
@@ -166,7 +193,9 @@ def handler(f):
         elif 'requestContext' in event:
             return __apigateway_handler(f, event, context)
         elif 'source' in event and event['source'] == 'aws.events':
-            return __events_handler(f, event, context)        
+            return __events_handler(f, event, context)
+        elif 'userPoolId'  in event:
+            return __cognito_handler(f, event, context)
         else:
             logging.error('Unmapped event source')
             raise Exception('Unmapped event source')
