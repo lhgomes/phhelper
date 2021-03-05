@@ -151,7 +151,7 @@ def __apigateway_handler(f, event, context):
     except AssertionError as error:
         logging.info('lambda_handler assert: %s' % (error))
         result = {
-            'statusCode': 412,
+            'statusCode': 400,
             'body': json.dumps({'message': str(error)}),
             'headers': {
                 'Content-Type': 'application/json',

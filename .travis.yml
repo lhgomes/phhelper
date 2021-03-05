@@ -15,6 +15,7 @@ jobs:
         password:
           secure: Nb+v29Zod4NLD8EhLO043Og0GLJCo8+xHcLvIj/jcCuwNy4FxMGdazVqpv/ZDy6ndNPnzqwRYn28Of4ZJaCTHInAuAs80gYyotR7ijMh5Kv8s5HGA8ZztaXra97PRxmjg72/Skj3sYkLnJW/MfkTHB5RtxsepBu4nVpUdnpW7aIe+j9WbV74UL4L9yYmRsKSy2+v3bzemyVthv7lo7LZ/CosWT3KnaaVXbgHU/7uAwXTpxC57qwUo2KJHrE/p0ecztK9JspPE3x74Lezp3ER7vlp+iepU+I5z6dkY//OnPVqG78Aat9Nm+H/R9GYGbqmFLL+AtF3sXkSbISjFx7PMmq7KdrGQO+It0vOjHfQWaDzWSPNEItRXXGjI5KSx19M97DRn3Z00ManfjPsOIm7eqK4Ns6BosKeGFmY+IwyZ2K4m6/LkQWY5YqOj4ozgufvtLjL7k9hq7NqXnyM2Ygu/oYPlx3g7orVIVaOW1Y5FHtx9AfblsFdOVtJZnU2ELRsG/+hROmCR08+v0+wd7bFuhg/mgC6DBZUaImaGAgK4s7deGLGvIX6y49Q6setblxYUe/n4LDezW2ZyVc5ZYJmisJLdv1MKaR907WSFGMQ9G0yo2LAWkYYWZ+tVWjZsoW4qhgr3jH0ivKeyLt8wP8vjY3VVBX6lQjpYOFCZw/ncMc=
         on:
+          tags: true
           branch: master
     - stage: deploy
       name: "Deploy to Artifacts"
@@ -26,4 +27,5 @@ jobs:
           secure: h2fuoZ1/oNbKJxGcwJHu+PvBz9ufWgQJBhZJzkAR6vRsMFXGq2W8B7sX8YlBsPQXWr/nH9DnqHb2GxhCWTp6ZfYGmPxea+MLUN/JFtCmUsYcMEsdm/0quoaIsQN/07DSLCSii5uKlg3TIP5GeruTqQOGe1ncS/ugdYK06wcruc8P83IxzprNy2H3YWQLEcQHZTCpB0VAf4fWY2e31e2QJHHCHacQGYDHXxCFY6OpTu1cOzoBzpqA4PDVJVqxecR3URLS1vV0i9YmGZOyxFBd0iQ0CN+zKtmRgssIPn8OeC4I5VIw4CgE4wEl4eBlkVn0Y0+k4rRYF3LJusr2ah5B8P1fJvFxB2zZb6mhXwBWjiJvU8qDUNVyUvA3Lcgjvrr7ubMCcDj1OC/J19m3BmS+rajk2cvGvO8EBiQV9EN+ZX0eLigYJfRddA3ZGWuv4OR29YkhcTtdXWYV249wjEG6F6CWb27fNZD8nOOciR2y905wLPnk+LQtIJw1S/hFpyjJISlvg3kJbFrQDAbUy6bhAeueybWph3PR5pwY8DleO5R+OMCyo3eyn+GgWS/7MzRwrD62fGzgkZAw0DfHn6VNsTAs0EAGp0X4bgclI8eLjuLK9YQYElcyKC8INJEyLaEWZ01IuoJbVPAV7vRTRg84fJDAp7fsn64w4I6c2tOdzwE=
         file: phhelper.zip
         on:
+          tags: true
           branch: master
