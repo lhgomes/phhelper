@@ -90,6 +90,7 @@ def __thread_records_handler(f, event, context):
     return True
 
 def __batch_handler(f, event, context):
+    result = None
     try:
         result = f(event, context)
             
