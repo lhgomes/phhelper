@@ -207,7 +207,7 @@ def handler(f):
             else:
                 batch_request = str(os.environ.get('BATCH_REQUEST','FALSE')).upper()
                 if (batch_request == 'TRUE'):
-                    __batch_handler(f, event, context)
+                    return __batch_handler(f, event, context)
                 else:
                     __records_handler(f, event, context)
         elif 'requestContext' in event:
