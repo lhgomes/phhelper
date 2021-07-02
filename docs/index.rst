@@ -61,6 +61,12 @@ If the event source send multiple records to be processed, you can enable Multit
 Environment variable called ``THREADING_ENABLED`` with value ``TRUE``. This will make a loop into event records, starting a
 thread for each record. Your handler will receive each record in a separeted call, inside a thread model.
 
+Batch Mode
+--------
+If the event source send multiple records to be processed, the layer will execute your handler one time for each record.
+To disable this behaviour, just create a variable called ``BATCH_REQUEST`` with value ``FALSE``. This option only works 
+if the ``THREADING_ENABLED`` was not set to ``TRUE``
+
 Logging
 --------
 You can define the general log verbosity level using a Environment variable called ``LOG_LEVEL`` and the boto3 log level

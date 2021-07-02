@@ -89,6 +89,22 @@ def __thread_records_handler(f, event, context):
 
     return True
 
+def __batch_handler(f, event, context):
+    try:
+        result = f(event, context)
+            
+    except AssertionError as error:
+        logging.info('lambda_handler assert: %s' % (error))
+        raise error
+    except Exception as error:
+        logging.error('lambda_handler error: %s' % (error))
+        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        raise error
+    finally:
+        logging.debug(result)
+        
+    return result
+
 def __records_handler(f, event, context):
     try:
         for record in event['Records']:
@@ -189,7 +205,11 @@ def handler(f):
             if (thread_enabled == 'TRUE'):
                 __thread_records_handler(f, event, context)
             else:
-                __records_handler(f, event, context)
+                batch_request = str(os.environ.get('BATCH_REQUEST','FALSE')).upper()
+                if (batch_request == 'TRUE'):
+                    __batch_handler(f, event, context)
+                else:
+                    __records_handler(f, event, context)
         elif 'requestContext' in event:
             return __apigateway_handler(f, event, context)
         elif 'source' in event and event['source'] == 'aws.events':
