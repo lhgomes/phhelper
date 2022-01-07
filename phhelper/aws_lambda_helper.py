@@ -47,6 +47,23 @@ def __setup_multi_log(event,context):
                             event_source=event['eventSource'],
                             event_source_arn=event['eventSourceARN'])      
 
+def __default_handler(f, event, context):
+    result = None
+    try:
+        result = f(event, context)
+            
+    except AssertionError as error:
+        logging.info('lambda_handler assert: %s' % (error))
+        raise error
+    except Exception as error:
+        logging.error('lambda_handler error: %s' % (error))
+        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        raise error
+    finally:
+        logging.debug(result)
+        
+    return result
+
 # Threaded function for processing.
 def __multi_record_process(f, thread_num, record, context):
     try:
@@ -218,7 +235,7 @@ def handler(f):
         elif 'userPoolId'  in event:
             return __cognito_handler(f, event, context)
         else:
-            logging.error('Unmapped event source')
-            raise Exception('Unmapped event source')
+            logging.warning('Unmapped event source. Using the default event handler.')
+            return __default_handler(f, event, context)
             
     return generic_handler
