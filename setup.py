@@ -6,14 +6,14 @@ with open("README.rst", "r") as fh:
 
 setuptools.setup(
     name='phhelper',
-    version='0.9.18',
+    version='0.9.23',
     author='Luiz Henrique Gomes',
     author_email="lhgnet@gmail.com",
     description='Python Handler Helper for Lambda',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url="https://github.com/lhgomes/phhelper",
-    packages=setuptools.find_packages(),
+    packages=['phhelper'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
