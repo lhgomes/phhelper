@@ -66,7 +66,13 @@ Batch Mode
 ----------
 If the event source send multiple records to be processed, the layer will execute your handler one time for each record.
 To disable this behaviour, just create a variable called ``BATCH_REQUEST`` with value ``TRUE``. This option only works 
-if the ``THREADING_ENABLED`` was not set to ``TRUE``
+if the ``THREADING_ENABLED`` was not set to ``TRUE``.
+
+Reporting batch item failures (https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/)
+----------
+If the event source send multiple records to be processed, the layer can handle the partial batch item failures.
+To enable this feature, just create a variable called ``PARTIAL_BATCH_RESPONSE`` with value ``TRUE``. This option only works 
+if the ``THREADING_ENABLED`` was not set to ``TRUE``.
 
 Logging
 -------

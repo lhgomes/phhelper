@@ -138,6 +138,22 @@ def __records_handler(f, event, context):
 
     return True
 
+def __partial_batch_records_handler(f, event, context):
+    batch_item_failures = []
+    batch_response = {}
+
+    for record in event['Records']:
+        try:
+            f(record, context)
+        except Exception as error:
+            batch_item_failures.append({"itemIdentifier": record['messageId']})
+
+            logging.error('lambda_handler error: %s' % (error))
+            logging.error('lambda_handler trace: %s' % traceback.format_exc())
+
+    batch_response["batchItemFailures"] = batch_item_failures
+    return batch_response
+    
 def __cognito_handler(f, event, context):
     result = None
     try:
@@ -223,11 +239,15 @@ def handler(f):
             if (thread_enabled == 'TRUE'):
                 __thread_records_handler(f, event, context)
             else:
-                batch_request = str(os.environ.get('BATCH_REQUEST','FALSE')).upper()
-                if (batch_request == 'TRUE'):
-                    return __batch_handler(f, event, context)
+                partial_batch_response = str(os.environ.get('PARTIAL_BATCH_RESPONSE','FALSE')).upper()
+                if (partial_batch_response == 'TRUE'):
+                    return __partial_batch_records_handler(f, event, context)
                 else:
-                    __records_handler(f, event, context)
+                    batch_request = str(os.environ.get('BATCH_REQUEST','FALSE')).upper()
+                    if (batch_request == 'TRUE'):
+                        return __batch_handler(f, event, context)
+                    else:
+                        __records_handler(f, event, context)
         elif 'requestContext' in event:
             return __apigateway_handler(f, event, context)
         elif 'source' in event and event['source'] == 'aws.events':
