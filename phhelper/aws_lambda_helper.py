@@ -12,6 +12,13 @@ def __get_log_level(env_name='LOG_LEVEL', default_level='ERROR'):
 
     return log_level
 
+def __log_error(error):
+    logging.error({
+        "type": type(error).__name__, 
+        "message": error, 
+        "at": traceback.format_exception(error)
+    })
+
 def __setup_log(context):
     aws_lambda_logging.setup(level=log_level, boto_level=boto_level,
                             function_arn=context.invoked_function_arn,
@@ -56,8 +63,7 @@ def __default_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
     finally:
         logging.debug(result)
@@ -75,7 +81,7 @@ def __multi_record_process(f, thread_num, record, context):
         
         return True
     except Exception as error:
-        logging.error('Error with record processing')
+        __log_error(error)
         raise error
 
 def __thread_records_handler(f, event, context):
@@ -100,8 +106,7 @@ def __thread_records_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
 
     return True
@@ -115,8 +120,7 @@ def __batch_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
     finally:
         logging.debug(result)
@@ -132,27 +136,27 @@ def __records_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
 
     return True
 
 def __partial_batch_records_handler(f, event, context):
     batch_item_failures = []
-    batch_response = {}
 
     for record in event['Records']:
         try:
             f(record, context)
         except Exception as error:
             batch_item_failures.append({"itemIdentifier": record['messageId']})
+            __log_error(error)
 
-            logging.error('lambda_handler error: %s' % (error))
-            logging.error('lambda_handler trace: %s' % traceback.format_exc())
-
-    batch_response["batchItemFailures"] = batch_item_failures
-    return batch_response
+    if len(batch_item_failures) > 0:
+        logging.critical(f'Batch item failures: {batch_item_failures}')
+        return { 'batchItemFailures': batch_item_failures }
+    else:
+        logging.info(f'Processed records: {len(event["Records"])}')
+        return None
     
 def __cognito_handler(f, event, context):
     result = None
@@ -165,8 +169,7 @@ def __cognito_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
     finally:
         logging.debug(result)
@@ -184,8 +187,7 @@ def __events_handler(f, event, context):
         logging.info('lambda_handler assert: %s' % (error))
         raise error
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         raise error
     finally:
         logging.debug(result)
@@ -209,8 +211,7 @@ def __apigateway_handler(f, event, context):
             }
         } 
     except Exception as error:
-        logging.error('lambda_handler error: %s' % (error))
-        logging.error('lambda_handler trace: %s' % traceback.format_exc())
+        __log_error(error)
         result = {
             'statusCode': 500,
             'body': json.dumps({'message': str(error)}),
