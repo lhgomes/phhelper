@@ -199,7 +199,19 @@ def __apigateway_handler(f, event, context):
     try:
         __setup_api_log(event,context)
 
+        add_default_headers = str(os.environ.get('ADD_DEFAULT_HEADERS', 'FALSE')).upper()
+
         result = f(event, context)
+        if add_default_headers == 'TRUE':
+            if not 'headers' in result:
+                result['headers'] = {}
+
+            if not 'Content-Type' in result['headers']:
+                result['headers']['Content-Type'] = 'application/json'
+
+            if not 'Access-Control-Allow-Origin' in result['headers']:
+                result['headers']['Access-Control-Allow-Origin'] = '*'
+
     except AssertionError as error:
         logging.info('lambda_handler assert: %s' % (error))
         result = {

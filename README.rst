@@ -69,10 +69,24 @@ To disable this behaviour, just create a variable called ``BATCH_REQUEST`` with 
 if the ``THREADING_ENABLED`` was not set to ``TRUE``.
 
 Reporting batch item failures (https://aws.amazon.com/about-aws/whats-new/2021/11/aws-lambda-partial-batch-response-sqs-event-source/)
-----------
+---------------------------------------------------------------------------------------------------------------------------------------
 If the event source send multiple records to be processed, the layer can handle the partial batch item failures.
 To enable this feature, just create a variable called ``PARTIAL_BATCH_RESPONSE`` with value ``TRUE``. This option only works 
 if the ``THREADING_ENABLED`` was not set to ``TRUE``.
+
+Defaul Headers
+--------------
+if the event source is AWS API Gateway, the layer can include the following headers:
+
+.. code-block:: json
+
+    {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin' = '*'
+    }
+
+To enable this feature, just create a variable called ``ADD_DEFAULT_HEADERS`` with value ``TRUE``. 
+It will not replace existing headers.
 
 Logging
 -------
@@ -94,7 +108,7 @@ The default values are:
    BOTO_LOG_LEVEL` = 'CRITICAL'
 
 Credits
--------
+----------
 Decorator implementation inspired by https://github.com/aws-cloudformation/custom-resource-helper
 
 Log implementation inspired by https://gitlab.com/hadrien/aws_lambda_logging
@@ -102,5 +116,5 @@ Log implementation inspired by https://gitlab.com/hadrien/aws_lambda_logging
 Multiprocessing implementation inspired by https://medium.com/@urban_institute/using-multiprocessing-to-make-python-code-faster-23ea5ef996ba
 
 License
---------
+----------
 This library is licensed under the MIT License.

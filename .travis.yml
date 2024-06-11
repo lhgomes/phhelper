@@ -1,6 +1,6 @@
 language: python
 python:
-  - '3.8'
+  - '3.12'
 install: skip
 script:
   - echo "Skip build"
