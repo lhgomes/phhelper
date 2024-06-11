@@ -5,9 +5,6 @@ Python Handler Helper for Lambda
    :target: https://phhelper.readthedocs.io/?badge=latest
    :alt: Documentation Status
 
-.. image:: https://travis-ci.com/lhgomes/phhelper.svg?branch=master
-    :target: https://travis-ci.com/lhgomes/phhelper
-
 .. image:: https://badge.fury.io/py/phhelper.svg
     :target: https://badge.fury.io/py/phhelper
     
@@ -78,7 +75,7 @@ Defaul Headers
 --------------
 if the event source is AWS API Gateway, the layer can include the following headers:
 
-.. code-block:: json
+.. code-block:: python
 
     {
         'Content-Type': 'application/json',
