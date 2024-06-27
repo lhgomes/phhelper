@@ -1,9 +1,9 @@
 import os
 import json
 import logging
-import traceback
 from . import aws_lambda_logging
 from functools import wraps
+from traceback import format_exception
 
 def __get_log_level(env_name='LOG_LEVEL', default_level='ERROR'):
     log_level = str(os.environ.get(env_name,default_level)).upper()
@@ -16,7 +16,7 @@ def __log_error(error):
     logging.error({
         "type": type(error).__name__, 
         "message": error, 
-        "at": traceback.format_exception(error)
+        "at": format_exception(error)
     })
 
 def __setup_log(context):
